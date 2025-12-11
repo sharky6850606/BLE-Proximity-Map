@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Beacon Activity Reports</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  <style>
+    body { background:#020617; color:#e5e7eb; padding:16px; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    a { color:#60a5fa; text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    table { width:100%; border-collapse: collapse; margin-top:12px; font-size:0.9rem; }
+    th, td { padding:8px 10px; border-bottom:1px solid rgba(148,163,184,0.3); text-align:left; }
+    th { background:#020617; position:sticky; top:0; }
+    .back-link { margin-bottom:12px; display:inline-block; }
+    .card { background:#020617; border-radius:8px; border:1px solid rgba(55,65,81,0.9); padding:12px 14px; margin-bottom:16px; }
+    .card-title { font-size:1rem; font-weight:600; margin-bottom:8px; }
+    select, button { padding:6px 8px; border-radius:4px; border:1px solid #4b5563; background:#020617; color:#e5e7eb; }
+    button { background:#3b82f6; border:none; cursor:pointer; }
+    button:hover { background:#2563eb; }
+  </style>
+</head>
+<body>
+  <a href="/map" class="back-link">← Back to map</a>
+
+  <div class="card">
+    <div class="card-title">Generate activity report</div>
+    {% if beacons %}
+    <form method="post">
+      <label for="beacon_name">Beacon name:</label>
+      <select id="beacon_name" name="beacon_name">
+        {% for b in beacons %}
+        <option value="{{ b }}">{{ b }}</option>
+        {% endfor %}
+      </select>
+      <button type="submit">Generate report</button>
+    </form>
+    {% else %}
+    <p>No notifications yet, so there is no beacon activity to report.</p>
+    {% endif %}
+  </div>
+
+  <div class="card">
+    <div class="card-title">Existing activity reports</div>
+    {% if reports %}
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Beacon</th>
+          <th>Created at</th>
+          <th>Summary</th>
+          <th>Download</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in reports %}
+        <tr>
+          <td>{{ r[0] }}</td>
+          <td>{{ r[1] }}</td>
+          <td>{{ r[2] }}</td>
+          <td>{{ r[3] }}</td>
+          <td><a href="{{ url_for('download_activity_report', report_id=r[0]) }}">Download</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p>No activity reports have been generated yet.</p>
+    {% endif %}
+  </div>
+</body>
+</html>
