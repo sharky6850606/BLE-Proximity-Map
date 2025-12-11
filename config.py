@@ -4,7 +4,7 @@ import os
 DB_PATH = os.path.join(os.path.dirname(__file__), "beacons.db")
 
 # Beacon TTL (seconds)
-TTL_SECONDS = 45  # keep a beacon "alive" this long after last seen
+TTL_SECONDS = 360  # keep a beacon "alive" this long after last seen
 
 # Samoa timezone offset
 SAMOA_OFFSET_HOURS = 13  # UTC+13 for Samoa
